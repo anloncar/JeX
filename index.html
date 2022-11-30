@@ -1,9 +1,9 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>JeX aplikacija</title>
     <script src="jquery-3.6.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="index.js"></script>
     <header> Pravio Neky
 </head>
@@ -14,35 +14,33 @@
     </div>
     <div style="text-align:center;  padding:20px">
         <div style="text-align:center; padding:30px; display:inline-block">
-            <table style="text-align:center; font-size:30px; width:300px;">
-                <tr>
-                    <td id="box1">X</td>
-                    <td> </td>
-                    <td id="box2">3</td>
-                </tr>
+            <div class="tbl">
+                <div class="tblcol">
+                    <div id="box1" class="tblrow"></div>
+                    <div class="divider"></div>
+                    <div id="box2" class="tblrow"></div>
+                </div>
+                <div class="tblcol" style="width:20px">
+                    =
+                </div>
+                <div class="tblcol">
+                    <div id="box3" class="tblrow"></div>
+                    <div class="divider"></div>
+                    <div id="box4" class="tblrow"></div>
+                </div>
+            </div>
 
-                <tr>
-                    <td>-</td>
-                    <td>=</td>
-                    <td>-</td>
-                </tr>
-
-                <tr>
-                    <td id="box3">5</td>
-                    <td> </td>
-                    <td id="box4">4</td>
-                </tr>
-            </table>
+        <div>Težina:<input type="range" min="1" max="4" value="1" class="slider" id="tezina"></div>
             <div>
-                <input id="uneseno" placeholder="Rezultat">
-                <button onclick="provjeri()" type="button">Provjeri</button>
+                <input id="uneseno" placeholder="Rezultat" class="res">
+                <button onclick="provjeri()" type="button" id="provjeri">Provjeri</button>
             </div>
             <div id="skor">
                 Točnih 6
             </div>
         </div>
     </div>
-    <div id="db">DB</div>
+    <div id="baza"></div>
 </body>
 <style>
     body {
@@ -74,44 +72,54 @@
     header {
         color: pink
     }
+    .tbl{
+        width: 600px;
+        font-size:30px;
+        padding-bottom: 30px;
+    }
+    .tblcol{
+        vertical-align: middle;
+        width: 150px;
+        display: inline-block;
+    }
+    .tblrow{
+        text-align:center
+    }
+    .divider{
+        height: 2px;
+        background-color: #fff;
+    }
+    .res{
+        width:150px; 
+        font-size:22px;
+        background-color: #000;
+        color: #fff;
+        border: 3px solid #000
+    }
+    #provjeri{
+        width:150px; 
+        font-size:22px;
+        background-color: #999;
+        color: #fff;
+    }
+    #skor{
+        padding: 30px; 
+        font-size:19px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .slider {
+        -webkit-appearance: none;  /* Override default CSS styles */
+        appearance: none;
+        width: 100px; /* Full-width */
+        height: 25px; /* Specified height */
+        background: #d3d3d3; /* Grey background */
+        outline: none; /* Remove outline */
+        opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+    }
 </style>
 <script>
-    window.tocni = 0;
-    window.netocni = 0;
-
-    function slucaj(dokle) {
-        var slucajni = Math.random()
-        slucajni = slucajni * dokle;
-        slucajni = Math.round(slucajni)
-        if (slucajni == 0) slucajni = 1
-        return slucajni
-    }
-
-    function provjeri() {
-        var uneseno = $("#uneseno").val();
-        uneseno = eval(uneseno)
-        $(".x").text(uneseno)
-        var lvrijednost = $("#box1").text() / $("#box3").text()
-        var dvrijednost = $("#box2").text() / $("#box4").text()
-        if (lvrijednost == dvrijednost) {
-            window.tocni++
-            alert("Vidi strebera, kao da mu Stanko predaje")
-        } else {
-            window.netocni++
-            alert("Nisi valjda glup ko Vito, uzimaj tu knjigu u ruke!!!!")
-        }
-        napravi_zadatak()
-    }
-
-    function napravi_zadatak() {
-        for (var i = 1; i <= 4; i++) {
-            $("#box" + i).text(slucaj(9))
-        }
-        $(".x").removeClass("x")
-        $("#box" + slucaj(4)).text("X").addClass("x")
-        $("#skor").text("Točnih " + window.tocni + ", Netočni:" + window.netocni)
-    }
-
     napravi_zadatak()
 </script>
 
